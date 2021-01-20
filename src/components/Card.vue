@@ -14,12 +14,16 @@
       <v-card-title v-text="item.name"></v-card-title>
     </v-img>
 
+    <v-card-text class="pt-4">
+      <v-spacer></v-spacer>
+
+      <slot name="text"></slot>
+    </v-card-text>
+
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-basket-plus-outline</v-icon>
-      </v-btn>
+      <slot name="actions"></slot>
     </v-card-actions>
   </v-card>
 </template>

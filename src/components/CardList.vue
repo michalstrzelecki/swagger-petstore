@@ -1,5 +1,11 @@
 <template>
   <v-container fluid>
+    <OrderDialog
+      :isOpen="isOrderDialogOpen"
+      :itemToBuy="itemToBuy"
+      @onOrderDialogClose="onOrderDialogClose"
+    />
+
     <v-row>
       <v-col
           v-for="item in items"
@@ -10,26 +16,55 @@
           md="4"
           lg="2"
       >
-        <Card :item="item" />
+        <Card
+          :item="item"
+        >
+          <template v-slot:actions>
+            <v-btn icon>
+              <v-icon
+                @click.stop="onAddToBasket(item)"
+              >
+                mdi-basket-plus-outline
+              </v-icon>
+            </v-btn>
+          </template>
+        </Card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import OrderDialog from "@/components/OrderDialog";
 import Card from './Card'
 
 export default {
   name: "CardList",
 
   components: {
-    Card
+    Card,
+    OrderDialog
   },
 
   props: {
     items: {
       type: Array,
       required: true
+    }
+  },
+
+  data: () => ({
+    isOrderDialogOpen: false,
+    itemToBuy: {}
+  }),
+
+  methods: {
+    onAddToBasket(item) {
+      this.itemToBuy = { ...item }
+      this.isOrderDialogOpen = true
+    },
+    onOrderDialogClose() {
+      this.isOrderDialogOpen = false
     }
   }
 }
