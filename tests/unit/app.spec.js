@@ -31,7 +31,7 @@ describe('App.vue', () => {
     })
 
     it('should fetch data on initial render', async () => {
-        wrapper = shallowMount(App, )
+        wrapper = shallowMount(App)
 
         await flushPromises()
 
@@ -40,10 +40,12 @@ describe('App.vue', () => {
     })
 
     it('should fetch new pets on pet status change', async () => {
-        // data-test-id="select-pet"
         const wrapper = mount(App, {
             localVue,
-            vuetify
+            vuetify,
+            data: () => ({
+                pets: statusAvailableData
+            })
         })
 
         wrapper.get('input[data-test-id="select-pet"]').trigger('click')
