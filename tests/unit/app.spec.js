@@ -13,18 +13,25 @@ import App from '@/App.vue'
 import axios from '@/axios'
 jest.mock('@/axios')
 
-Vue.use(Vuetify)
-const localVue = createLocalVue()
-const vuetify = new Vuetify()
-localVue.use(Vuetify)
-axios.get.mockResolvedValue({ data: statusAvailableData })
-
 describe('App.vue', () => {
+    let localVue, vuetify, wrapper
+
+    beforeEach(() => {
+        Vue.use(Vuetify)
+        localVue = createLocalVue()
+        vuetify = new Vuetify()
+        localVue.use(Vuetify)
+
+        axios.get.mockResolvedValue({ data: statusAvailableData })
+    })
+
+    afterEach(() => {
+        wrapper.destroy()
+        jest.resetAllMocks()
+    })
+
     it('should fetch data on initial render', async () => {
-        const wrapper = shallowMount(App, {
-            localVue,
-            vuetify
-        })
+        wrapper = shallowMount(App, )
 
         await flushPromises()
 
@@ -45,6 +52,6 @@ describe('App.vue', () => {
         wrapper.get('.v-list-item:nth-child(3)').trigger('click')
         await flushPromises()
 
-        expect(axios.get.mock.calls).toHaveLength(3);
+        expect(axios.get.mock.calls).toHaveLength(2);
     });
 })
