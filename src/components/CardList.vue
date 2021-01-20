@@ -24,9 +24,11 @@
             <v-card-actions>
               <v-spacer />
 
-              <v-btn icon>
+              <v-btn
+                :disabled="item.status !== 'available'"
+                icon>
                 <v-icon
-                    @click.stop="onAddToBasket(item)"
+                  @click.stop="onAddToBasket(item)"
                 >
                   mdi-basket-plus-outline
                 </v-icon>
