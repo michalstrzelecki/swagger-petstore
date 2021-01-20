@@ -18,6 +18,7 @@
                   sm="6"
               >
                 <v-text-field
+                  :rules="[required, minValue]"
                   v-model="itemQuantity"
                   label="Quantity"
                   value="1"
@@ -44,6 +45,7 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                      :rules="[required]"
                     />
                   </template>
                   <v-date-picker
@@ -71,6 +73,7 @@
               color="blue darken-1"
               text
               @click="onOrderDialogPlaceOrder"
+              :disabled="!isFormValid"
             >
               Place Order
             </v-btn>
@@ -131,7 +134,8 @@ export default {
     isShipDateMenuDisplay: false,
     shipDate: null,
     snackbarText: '',
-    isSnackbarDisplay: false
+    isSnackbarDisplay: false,
+    isFormValid: false
   }),
 
   methods: {
@@ -159,10 +163,30 @@ export default {
         this.text = e.message
       } finally {
         this.isSnackbarDisplay = true
+        this.isFormValid = false
       }
     },
     onSnackbarInput(isDisplay) {
       this.isSnackbarDisplay = isDisplay
+    },
+    required(value) {
+      if (value) {
+        console.log(value)
+        this.isFormValid = true
+        return true
+      }
+
+      this.isFormValid = false
+      return 'Required.'
+    },
+    minValue(value) {
+      if (value > 1) {
+        this.isFormValid = true
+        return true
+      }
+
+      this.isFormValid = false
+      return 'Min 2.'
     }
   }
 }
