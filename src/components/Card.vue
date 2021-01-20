@@ -14,17 +14,8 @@
       <v-card-title v-text="item.name"></v-card-title>
     </v-img>
 
-    <v-card-text class="pt-4">
-      <v-spacer></v-spacer>
-
-      <slot name="text"></slot>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-spacer></v-spacer>
-
-      <slot name="actions"></slot>
-    </v-card-actions>
+    <slot name="text"></slot>
+    <slot name="actions"></slot>
   </v-card>
 </template>
 
@@ -42,5 +33,7 @@ export default {
 </script>
 
 <style scoped>
-
+.v-dialog > .v-card > .v-card__text {
+  padding: 24px 20px;
+}
 </style>

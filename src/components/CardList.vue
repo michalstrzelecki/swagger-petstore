@@ -7,26 +7,31 @@
     />
 
     <v-row>
+      <!-- item.id is not unique -->
       <v-col
-          v-for="item in items"
-          :key="item.id"
-          cols="12"
-          xs="12"
-          sm="6"
-          md="4"
-          lg="2"
+        v-for="(item, key) in items"
+        :key="key"
+        cols="12"
+        xs="12"
+        sm="6"
+        md="4"
+        lg="2"
       >
         <Card
           :item="item"
         >
           <template v-slot:actions>
-            <v-btn icon>
-              <v-icon
-                @click.stop="onAddToBasket(item)"
-              >
-                mdi-basket-plus-outline
-              </v-icon>
-            </v-btn>
+            <v-card-actions>
+              <v-spacer />
+
+              <v-btn icon>
+                <v-icon
+                    @click.stop="onAddToBasket(item)"
+                >
+                  mdi-basket-plus-outline
+                </v-icon>
+              </v-btn>
+            </v-card-actions>
           </template>
         </Card>
       </v-col>
