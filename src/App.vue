@@ -62,7 +62,6 @@ export default {
   methods: {
     async getPets() {
       const { data } = await findPetsByStatus(this.selectedPetStatus.value)
-      console.log(data[0])
       this.pets = data
     },
     onPetStatusChange() {
