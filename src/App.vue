@@ -14,6 +14,7 @@
             return-object
             persistent-hint
             @change="onPetStatusChange"
+            data-test-id="select-pet"
         ></v-select>
       </v-col>
       <CardList :items="pets" />

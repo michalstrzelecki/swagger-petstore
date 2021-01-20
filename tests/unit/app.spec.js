@@ -1,4 +1,8 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import {
+    shallowMount,
+    mount,
+    createLocalVue
+} from '@vue/test-utils'
 import { statusAvailableData } from "../mockedData"
 import flushPromises from 'flush-promises'
 
@@ -13,11 +17,10 @@ Vue.use(Vuetify)
 const localVue = createLocalVue()
 const vuetify = new Vuetify()
 localVue.use(Vuetify)
+axios.get.mockResolvedValue({ data: statusAvailableData })
 
 describe('App.vue', () => {
-    it('fetches data on initial render', async () => {
-        axios.get.mockResolvedValue({ data: statusAvailableData })
-
+    it('should fetch data on initial render', async () => {
         const wrapper = shallowMount(App, {
             localVue,
             vuetify
@@ -28,4 +31,20 @@ describe('App.vue', () => {
         expect(axios.get.mock.calls).toHaveLength(1);
         expect(wrapper.vm.$data.pets).toStrictEqual(statusAvailableData)
     })
+
+    it('should fetch new pets on pet status change', async () => {
+        // data-test-id="select-pet"
+        const wrapper = mount(App, {
+            localVue,
+            vuetify
+        })
+
+        wrapper.get('input[data-test-id="select-pet"]').trigger('click')
+        await wrapper.vm.$nextTick()
+
+        wrapper.get('.v-list-item:nth-child(3)').trigger('click')
+        await flushPromises()
+
+        expect(axios.get.mock.calls).toHaveLength(3);
+    });
 })
